@@ -6,7 +6,7 @@
 import TodoList from '@/components/Todolist.vue'
 
 export default {
-  name: 'Home',
+  name: 'Todo',
   components: {
     TodoList
   }
