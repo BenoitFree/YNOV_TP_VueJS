@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <h1>{{ msg }}</h1>
+        <!-- Formulaires -->
         <form class="form" @submit.prevent="addTodo">
             <div class="form-group">
                 <label for="name">Titre</label>
@@ -28,10 +29,24 @@
                 </ul>
             </p>
         </form>
+        <!-- Filtres -->
+        <div>
+            <div v-if="hasTodos" class="footer-taches filters">
+                <button :class="{selected: filter === 'all'}"  @click.prevent="filter = 'all'">Toutes</button>
+                <button :class="{selected: filter === 'todo'}" @click.prevent="filter = 'todo'">À faire</button>
+                <button :class="{selected: filter === 'done'}" @click.prevent="filter = 'done'">Terminées</button>
+            </div>
+            <div class="footer-taches">
+                <span>{{ remainingTodos }} tâches à faire</span>
+                <button v-show="doneTodos" @click.prevent="deleteCompleted">Supprimer toutes les tâches</button>
+            </div>
+        </div>
+        <!-- Listes -->
         <div v-if="hasTodos">
             <h2>Tâche à faire</h2>
+            <input type="checkbox" v-model="allDone"> Valider toutes les tâches
             <ul class="group-item">
-                <li class="item" v-for="todo in todos" :key="todo.id" :class="{completed: todo.completed, editing: editing === todo}">
+                <li class="item" v-for="todo in filteredTodos" :key="todo.id" :class="{completed: todo.completed, editing: editing === todo}">
                     <div class="item-title">
                         <label>{{ todo.name }}</label>
                     </div>
@@ -63,12 +78,6 @@
                 </li>
             </ul>
         </div>
-        <footer>
-            <div class="footer-taches">
-                <span>{{ remainingTodos }} tâches à faire</span>
-                <button v-show="doneTodos" @click.prevent="deleteCompleted">Supprimer toutes les tâches</button>
-            </div>
-        </footer>
     </div>
 </template>
 
@@ -80,7 +89,7 @@ export default {
     props: {
         msg: String
     },
-    data(){
+    data() {
         return{
             errors: [],
             todos: [],
@@ -88,12 +97,13 @@ export default {
             hours: '',
             responsable: '',
             editing: null,
-            oldTodo: ''
+            oldTodo: '',
+            filter: 'all',
         }
     },
     methods:{
         addTodo() {
-            if(this.name && this.hours && this.responsable){
+            if(this.name && this.hours && this.responsable) {
                 this.todos.push({
                     name: this.name,
                     hours: this.hours,
@@ -119,7 +129,7 @@ export default {
             this.todos = this.todos.filter(todo => !todo.completed)
         },
         editTodo(todo) {
-            if(this.editing != todo){
+            if(this.editing != todo) {
                 this.editing = todo
                 this.oldTodo = todo.name
             } else {
@@ -143,6 +153,24 @@ export default {
         },
         doneTodos() {
             return this.todos.filter(todo => todo.completed).length
+        },
+        filteredTodos() {
+            if(this.filter === 'todo') {
+                return this.todos.filter(todo => !todo.completed)
+            } else if(this.filter === 'done') {
+                return this.todos.filter(todo => todo.completed)
+            }
+            return this.todos
+        },
+        allDone: {
+            get() {
+                return this.remainingTodos === 0
+            },
+            set(value) {
+                this.todos.forEach(todo => {
+                    todo.completed = value
+                })
+            }
         }
     },
     directives: {
@@ -227,5 +255,9 @@ export default {
     .footer-taches{
         display: flex;
         gap: 1rem;
+        margin-top: 2rem;
+    }
+    .filters button.selected{
+        border: 2px solid red;
     }
 </style>
