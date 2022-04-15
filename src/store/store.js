@@ -23,7 +23,9 @@ const store = new Vuex.Store({
     },
     mutations: {
         getTodo(state, todo) {
-            state.todos = todo
+            state.name = todo
+            state.hours = todo
+            state.responsable = todo
         },
         addTodo(state) {
             if(state.name && state.hours && state.responsable) {
