@@ -1,16 +1,16 @@
 <template>
-    <form class="form" @change.prevent="getTodo" @submit.prevent="addTodo">
+    <form class="form" @submit.prevent="addTodo">
         <div class="form-group">
             <label for="name">Titre</label>
-            <input type="text" name="name"  :value="name" placeholder="Nom de la tâche">
+            <input type="text" name="name" @change="getName" :value="name" placeholder="Nom de la tâche">
         </div>
         <div class="form-group">
             <label for="time">Durée</label>
-            <input type="number" name="time"  :value="hours" placeholder="Durée de la mission" min="1">
+            <input type="number" name="time" @change="getHour" :value="hours" placeholder="Durée de la mission" min="1">
         </div>
         <div class="form-group">
             <label for="responsable">Responsable</label>
-            <select name="responsable"  :value="responsable">
+            <select name="responsable" @change="getResponsable" :value="responsable">
                 <option>Florian</option>
                 <option>Fred</option>
                 <option>Manon</option>
@@ -34,8 +34,14 @@
             addTodo() {
                 this.$store.dispatch('addTodo')
             },
-            getTodo(e){
-                this.$store.dispatch('getTodo', e.target.value)
+            getName(e){
+                this.$store.dispatch('getName', e.target.value)
+            },
+            getHour(e){
+                this.$store.dispatch('getHour', e.target.value)
+            },
+            getResponsable(e){
+                this.$store.dispatch('getResponsable', e.target.value)
             },
         },
         computed: {

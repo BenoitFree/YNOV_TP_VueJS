@@ -22,9 +22,13 @@ const store = new Vuex.Store({
         filter: 'all',
     },
     mutations: {
-        getTodo(state, todo) {
+        getName(state, todo) {
             state.name = todo
+        },
+        getHour(state, todo) {
             state.hours = todo
+        },
+        getResponsable(state, todo) {
             state.responsable = todo
         },
         addTodo(state) {
@@ -70,8 +74,14 @@ const store = new Vuex.Store({
         }
     },
     actions:{
-        getTodo({commit}, todo) {
-            commit('getTodo', todo)
+        getName({commit}, todo) {
+            commit('getName', todo)
+        },
+        getHour({commit}, todo) {
+            commit('getHour', todo)
+        },
+        getResponsable({commit}, todo) {
+            commit('getResponsable', todo)
         },
         addTodo({commit}){
             commit('addTodo')
