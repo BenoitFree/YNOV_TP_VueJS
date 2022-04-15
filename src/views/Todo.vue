@@ -1,9 +1,9 @@
 <template>
-  <TodoList msg="Todolist"/>
+  <TodoList msg="Todolist (without store)"/>
 </template>
 
 <script>
-import TodoList from '@/components/Todolist.vue'
+import TodoList from '@/components/TodoList.vue'
 
 export default {
   name: 'Todo',

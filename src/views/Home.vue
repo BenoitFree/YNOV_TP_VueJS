@@ -1,14 +1,14 @@
 <template>
-  <TodoList msg="Todolist"/>
+  <HelloWorld msg="Todolist"/>
 </template>
 
 <script>
-import TodoList from '@/components/Todolist.vue'
+import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
   components: {
-    TodoList
+    HelloWorld
   }
 }
 </script>
